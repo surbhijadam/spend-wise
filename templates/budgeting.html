@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Collaborative Budgeting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='budget.css') }}">
+</head>
+
+<body class="budget-page">
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" class="logo" />
+            <a href="{{ url_for('home') }}" class="brand">SpendWise</a>
+        </div>
+        <ul class="nav-links">
+            {% if current_user.is_authenticated %}
+            <li><a href="/">Home</a></li>
+            <li><a href="/ai">AI Categorization</a></li>
+            <li><a href="/gamification">Gamification</a></li>
+            <li><a class="active" href="/budgeting">Collaborative Budgeting</a></li>
+            {% else %}
+                <a href="{{ url_for('login_page') }}" class="btn">Login</a>
+                <a href="{{ url_for('signup_page') }}" class="btn secondary">Sign up</a>
+            {% endif %}
+        </ul>
+    </nav>
+
+<header>
+    <h1>Collaborative Budgeting</h1>
+    <p>Manage shared expenses with friends, family, or roommates</p>
+</header>
+
+<div class="container">
+
+    <!-- CREATE GROUP -->
+    <div class="card">
+        <h2>Create Budget Group</h2>
+        <input type="text" id="groupName" placeholder="Group Name" class="form-input">
+        <input type="number" id="groupBudget" placeholder="Monthly Budget" class="form-input">
+        <button class="btn-primary" onclick="createGroup()">Create Group</button>
+    </div>
+
+     <!-- SELECT GROUP -->
+    <div class="card">
+        <h2>Select Group</h2>
+        <select id="groupSelect" onchange="loadGroupData()">
+            <option value="">-- Select Group --</option>
+        </select>
+    </div>
+
+    <!-- INVITE MEMBERS -->
+<div class="card">
+    <h2>Invite Members</h2>
+    <p>Share this link to add members to your group</p>
+
+    <input type="text" id="inviteLink" class="form-input" readonly>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn-primary" onclick="copyInvite()">Copy Link</button>
+
+        <a id="whatsappShare" target="_blank" class="btn secondary">
+            Share on WhatsApp
+        </a>
+
+        <a id="gmailShare" target="_blank" class="btn secondary">
+            Share via Gmail
+        </a>
+    </div>
+</div>
+
+    <!-- BUDGET SUMMARY -->
+    <div class="card">
+        <h2>Budget Summary</h2>
+        <div class="summary">
+            <div>
+                <h3>Total Budget</h3>
+                <p id="totalBudget">₹0</p>
+            </div>
+            <div>
+                <h3>Total Spent</h3>
+                <p id="totalSpent">₹0</p>
+            </div>
+            <div>
+                <h3>Remaining</h3>
+                <p id="remaining">₹0</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD EXPENSE -->
+    <div class="card">
+        <h2>Add Shared Expense</h2>
+        <input type="number" id="amount" placeholder="Amount" class="form-input">
+        <input type="text" id="category" placeholder="Category" class="form-input">
+        <input type="text" id="note" placeholder="Note" class="form-input">
+        <button class="btn-primary" onclick="addExpense()">Add Expense</button>
+    </div>
+
+    <!-- EXPENSE LIST -->
+    <div class="card">
+        <h2>Shared Expenses</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Note</th>
+                    <th>Added By</th>
+                </tr>
+            </thead>
+            <tbody id="expenseTable"></tbody>
+        </table>
+    </div>
+
+    <!-- PIE CHART -->
+    <div class="card">
+        <h2>Category-wise Spending</h2>
+        <div class="chart-wrapper">
+            <canvas id="categoryChart" height="300"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script>
+let categoryChart = null;
+
+/* ---------------- LOAD GROUPS ---------------- */
+document.addEventListener("DOMContentLoaded", loadGroups);
+
+function loadGroups(selectedGroupId = null) {
+    fetch('/api/group', {
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Unauthorized");
+        return res.json();
+    })
+    .then(groups => {
+        const select = document.getElementById("groupSelect");
+        select.innerHTML = '<option value="">-- Select Group --</option>';
+
+        groups.forEach(g => {
+            const opt = document.createElement("option");
+            opt.value = g.id;
+            opt.textContent = g.name;
+            select.appendChild(opt);
+        });
+
+        if (selectedGroupId) {
+            select.value = selectedGroupId;
+            loadGroupData();
+        }
+    })
+    .catch(err => console.error(err));
+}
+
+
+/* ---------------- CREATE GROUP ---------------- */
+function createGroup() {
+    const name = groupName.value.trim();
+    const budget = groupBudget.value;
+
+    if (!name || !budget) {
+        alert("Please enter group name and budget");
+        return;
+    }
+
+    fetch('/api/group', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify({ name, budget })
+    })
+    .then(res => res.json())
+    .then(data => {
+        groupName.value = "";
+        groupBudget.value = "";
+
+        // reload & auto-select
+        loadGroups(data.group_id);
+
+        setInviteLink(data.invite_link);
+        alert("Group created successfully");
+    });
+}
+
+
+/* ---------------- LOAD GROUP DATA ---------------- */
+function loadGroupData() {
+    const groupId = groupSelect.value;
+    if (!groupId) return;
+
+    fetch(`/api/group/${groupId}`, {
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('totalBudget').innerText = `₹${data.budget}`;
+        document.getElementById('totalSpent').innerText = `₹${data.total_spent}`;
+        document.getElementById('remaining').innerText =
+            `₹${data.budget - data.total_spent}`;
+
+        fetch(`/api/group/${groupId}/invite`, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then(res => res.json())
+        .then(inv => setInviteLink(inv.invite_link));
+
+        expenseTable.innerHTML = "";
+        data.expenses.forEach(e => {
+            expenseTable.innerHTML += `
+                <tr>
+                    <td>₹${e.amount}</td>
+                    <td>${e.category}</td>
+                    <td>${e.note || ""}</td>
+                    <td>${e.added_by}</td>
+                </tr>`;
+        });
+
+        drawChart(data.expenses);
+    });
+}
+
+
+/* ---------------- ADD EXPENSE ---------------- */
+function addExpense() {
+    const groupId = groupSelect.value;
+    if (!groupId) {
+        alert("Select a group first");
+        return;
+    }
+
+    fetch(`/api/group/${groupId}/expense`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        body: JSON.stringify({
+            amount: amount.value,
+            category: category.value,
+            note: note.value
+        })
+    })
+    .then(() => {
+        amount.value = "";
+        category.value = "";
+        note.value = "";
+        loadGroupData();
+    });
+}
+
+
+/* ---------------- INVITE LINK ---------------- */
+function setInviteLink(link) {
+    inviteLink.value = link;
+
+    whatsappShare.href =
+        `https://wa.me/?text=${encodeURIComponent("Join my budget group: " + link)}`;
+
+    gmailShare.href =
+        `https://mail.google.com/mail/?view=cm&fs=1&su=Join Budget Group&body=${encodeURIComponent(link)}`;
+}
+
+function copyInvite() {
+    inviteLink.select();
+    document.execCommand("copy");
+    alert("Invite link copied!");
+}
+
+/* ---------------- DRAW CHART ---------------- */
+function drawChart(expenses) {
+    if (!expenses || expenses.length === 0) return;
+
+    const grouped = {};
+
+    expenses.forEach(e => {
+        grouped[e.category] = (grouped[e.category] || 0) + e.amount;
+    });
+
+    const labels = Object.keys(grouped);
+    const values = Object.values(grouped);
+
+    const canvas = document.getElementById('categoryChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    if (categoryChart) {
+        categoryChart.destroy();
+    }
+
+    categoryChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: values
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+}
+
+
+</script>
+
+</body>
+</html>

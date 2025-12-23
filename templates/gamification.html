@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gamification & Rewards - SpendWise</title>
+    <link rel="stylesheet" href="/static/game.css">
+</head>
+
+<body class="gamification-page">
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" class="logo" />
+            <a href="{{ url_for('home') }}" class="brand">SpendWise</a>
+        </div>
+        <ul class="nav-links">
+            {% if current_user.is_authenticated %}
+            <li><a href="/">Home</a></li>
+            <li><a href="/ai">AI Categorization</a></li>
+            <li><a class="active" href="/gamification">Gamification</a></li>
+            <li><a href="/budgeting">Collaborative Budgeting</a></li>
+            {% else %}
+                <a href="{{ url_for('login_page') }}" class="btn">Login</a>
+                <a href="{{ url_for('signup_page') }}" class="btn secondary">Sign up</a>
+            {% endif %}
+        </ul>
+    </nav>
+
+<section class="feature-page">
+    <h1>Gamification & Rewards</h1>
+    <p>
+        Make managing money fun! Earn points, unlock badges and complete financial challenges.
+    </p>
+
+    <div class="feature-box">
+        <h2>Rewards You Can Earn</h2>
+        <ul>
+            <li>Daily savings streak badges</li>
+            <li>Achievement points</li>
+            <li>Leaderboard ranking among friends</li>
+            <li>Redeem rewards for discounts or coupons</li>
+        </ul>
+    </div>
+</section>
+
+</body>
+</html>

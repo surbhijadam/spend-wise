@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Expense</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='astyle.css') }}"> 
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="nav-left">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" class="logo" />
+            <a href="{{ url_for('home') }}" class="brand">SpendWise</a>
+        </div>
+        <nav class="nav-links">
+            {% if current_user.is_authenticated %}
+            <div class="header-actions">
+                <a href="/" class="btn2">Home</a>
+                <a href="/view-expense-page" class="btn2">View Expenses</a>
+                <a href="/add-income" class="btn2">Add Income</a>
+                <a class="btn2" href="/analytics-page">Analytics</a>
+              </div>
+            {% else %}
+                <a href="{{ url_for('login_page') }}" class="btn">Login</a>
+                <a href="{{ url_for('signup_page') }}" class="btn secondary">Sign up</a>
+            {% endif %}
+        </nav>
+    </header>
+
+
+
+    <main class="container">
+        <section class="card">
+            <h2>Add Expense</h2>
+
+            <form id="expenseForm">
+                <div>
+                    <label for="amount">Amount</label>
+                    <input type="number" id="amount" name="amount" required placeholder="0.00">
+                </div>
+
+                <div>
+                    <label for="category">Category</label>
+                    <select id="category" name="category">
+                        <option value="">Select category</option>
+                        <option>Groceries</option>
+                        <option>Food</option>
+                        <option>Transport</option>
+                        <option>Shopping</option>
+                        <option>Utilities</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="note">Note</label>
+                    <input type="text" id="note" name="note" placeholder="Optional note">
+                </div>
+
+                <div>
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn">Add</button>
+                    <a href="{{ url_for('view_expense_page') }}" class="btn secondary">View All</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+<script>
+document.getElementById("expenseForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let data = {
+        amount: document.getElementById("amount").value,
+        category: document.getElementById("category").value,
+        note: document.getElementById("note").value,
+        date: document.getElementById("date").value,
+    };
+
+    fetch("/add-expense", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(data => alert(data.message))
+    .catch(err => alert("Error: " + err));
+});
+</script>
+
+</body>
+</html>
+

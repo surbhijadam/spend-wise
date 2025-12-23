@@ -1,0 +1,256 @@
+/* ================ GLOBAL PAGE STYLE ================== */
+body.simple-page {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #7f78ff, #9f8bff, #c7b5ff);
+    color: #333;
+    min-height: 100vh;
+}
+
+/* ================ HEADER ================== */
+.site-header {
+    width: 100%;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;  /* ← reduces gap between logo and SpendWise */
+}
+
+/* LOGO FIXED SIZE */
+.logo {
+    height: 50px;       /* increase or decrease freely */
+    width: auto;
+    object-fit: contain;
+}
+
+/* BRAND TEXT */
+.brand {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-links .btn,
+.nav-links .ghost {
+    padding: 8px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn {
+    background: white;
+    color: #555;
+    border: none;
+}
+
+.btn.secondary {
+    background: #eee;
+}
+
+.btn.ghost {
+    background: white;
+    border: 2px solid white;
+    color: #551e8d;
+
+}
+
+.muted {
+    opacity: 0.85;
+}
+
+/* ================= MAIN CONTENT ================= */
+.container {
+    width: 90%;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+/* CARD STYLING */
+.simple-card {
+    background: white;
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+    overflow-x: hidden; /* FIX OVERFLOW */
+}
+
+.simple-card h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #444;
+}
+
+/* SUMMARY GRID (Top 3 boxes) */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+/* SUMMARY CARD */
+.summary-card {
+    background: #f7f7ff;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow-x: hidden; /* FIX CANVAS OVERFLOW */
+}
+
+.summary-card canvas {
+    width: 100% !important;
+    max-width: 100%;
+    height: auto !important;
+    display: block;
+}
+
+/* LABEL AND VALUES */
+.summary-card .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+}
+
+.summary-card .value {
+    font-size: 32px;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+/* BUDGET SECTION */
+.budget-progress {
+    width: 100%;
+    height: 12px;
+    background: #eee;
+    border-radius: 10px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.budget-progress-inner {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #7b57ff, #a88cff);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.budget-alert {
+    font-size: 14px;
+    font-weight: 600;
+    color: red;
+    margin-bottom: 6px;
+}
+
+/* ================= TABLE STYLING ================= */
+.simple-table {
+    margin-top: 30px;
+    overflow-x: auto; /* RESPONSIVE FIX */
+    border-radius: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+table thead {
+    background: #ece9ff;
+}
+
+table th {
+    text-align: left;
+    padding: 14px;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+table td {
+    padding: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+table tr:hover {
+    background: #faf8ff;
+}
+
+.empty-row td {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+}
+
+/* ACTION BUTTONS INSIDE TABLE */
+.actions {
+    display: flex;
+    gap: 12px;   /* space between Edit and Delete */
+    align-items: center;
+}
+.actions button,
+.actions a {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.actions .edit-btn {
+    background: #dedefd;
+}
+
+.actions .delete-btn {
+    background: #ffd8d8;
+}
+
+/* GLOBAL SAFETY FIX */
+* {
+    box-sizing: border-box;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+    .site-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+.header-actions .btn {
+    margin-left: 12px;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn2 {
+    background: transparent;
+    color: white;
+    padding: 10px 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.25s ease;
+    display: inline-block;
+}
+
+.btn2:hover {
+    transform: translateY(-2px);
+}

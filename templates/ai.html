@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Expense Categorization - SpendWise</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='ai.css') }}">
+</head>
+<body class="ai-page">
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" class="logo" />
+            <a href="{{ url_for('home') }}" class="brand">SpendWise</a>
+        </div>
+        <ul class="nav-links">
+            {% if current_user.is_authenticated %}
+            <li><a href="/">Home</a></li>
+            <li><a class="active" href="/ai">AI Categorization</a></li>
+            <li><a href="/gamification">Gamification</a></li>
+            <li><a href="/budgeting">Collaborative Budgeting</a></li>
+            {% else %}
+                <a href="{{ url_for('login_page') }}" class="btn">Login</a>
+                <a href="{{ url_for('signup_page') }}" class="btn secondary">Sign up</a>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <section class="feature-page">
+        <h1>AI-Powered Expense Categorization</h1>
+        <p>
+            SpendWise uses advanced AI models to automatically categorize your expenses.
+            The system learns from your habits and becomes more accurate over time.
+        </p>
+
+        <div class="feature-box">
+            <h2>How it works</h2>
+            <ul>
+                <li>Upload your transactions or connect your bank</li>
+                <li>AI instantly labels each spending category</li>
+                <li>Visual charts help you understand spending patterns</li>
+            </ul>
+        </div>
+    </section>
+</body>
+</html>
+

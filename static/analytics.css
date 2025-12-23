@@ -1,0 +1,225 @@
+/* ---------- GLOBAL ---------- */
+body.simple-page {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #7f78ff, #9f8bff, #c7b5ff);
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding-bottom: 40px;
+}
+
+/* ---------- HEADER ---------- */
+.simple-header {
+
+    color: white;
+    padding: 18px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.simple-header h1 {
+    font-size: 26px;
+    margin: 0;
+}
+
+.header-actions .btn {
+    margin-left: 12px;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn {
+    background: transparent;
+    color: white;
+    padding: 10px 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.25s ease;
+    display: inline-block;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn2 {
+    background: #4F45FF;
+    color: white;
+    padding: 10px 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.25s ease;
+    display: inline-block;
+}
+
+.btn2:hover {
+    transform: translateY(-2px);
+}
+
+/* ---------- ERROR MESSAGE ---------- */
+.msg.error {
+    background: #fee;
+    color: #b40000;
+    padding: 10px 14px;
+    border-left: 5px solid #ff4d4d;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* ---------- SUMMARY CARDS ---------- */
+.summary-cards {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    width: 100%;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: 0.25s;
+    min-height: 150px;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.card h3 {
+    margin-bottom: 12px;
+    font-size: 18px;
+}
+
+.card div {
+    font-size: 26px;
+    font-weight: bold;
+    color: #9b6cff;
+}
+
+/* ---------- CHARTS SECTION ---------- */
+.charts {
+    margin-top: 35px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.chart-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    height: 320px;   /* IMPORTANT */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-card h4 {
+    text-align: center;
+    margin-bottom: 14px;
+    color: #9b6cff;
+}
+
+.chart-card canvas {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 220px;
+}
+
+/* ---------- REPORT BUTTONS ---------- */
+.report-actions {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.report-actions .btn {
+    margin: 0 10px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1100px) {
+    .summary-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .charts {
+        grid-template-columns: 1fr;
+    }
+    .simple-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 700px) {
+    .summary-cards {
+        grid-template-columns: 1fr;
+    }
+    .header-actions {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+    .header-actions .btn {
+        flex: 1 1 45%;
+        text-align: center;
+    }
+    .chart-card {
+        padding: 16px;
+        min-height: 240px;
+    }
+    .chart-card canvas {
+        max-height: 200px;
+    }
+    .report-actions .btn {
+        width: 100%;
+        margin: 8px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .simple-header h1 {
+        font-size: 22px;
+    }
+    .btn, .btn2 {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;  /* ← reduces gap between logo and SpendWise */
+}
+
+/* LOGO FIXED SIZE */
+.logo {
+    height: 50px;       /* increase or decrease freely */
+    width: auto;
+    object-fit: contain;
+}
+
+/* BRAND TEXT */
+.brand {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+}

@@ -1,0 +1,273 @@
+/* ------------------------- */
+/* GENERAL PAGE STYLING      */
+/* ------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #9b6cff, #6aa8ff);
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding-bottom: 40px;
+}
+
+/* ------------------------- */
+/* HEADER                    */
+/* ------------------------- */
+
+.site-header {
+    width: 100%;
+    padding: 25px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    color: #fff;
+}
+
+/* .navbar .logo {
+    font-size: 1.4rem;
+    font-weight: 700;
+} */
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 999px;
+    transition: background 0.2s;
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+    background: rgba(255,255,255,0.25);
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;  /* ← reduces gap between logo and SpendWise */
+}
+
+/* LOGO FIXED SIZE */
+.logo {
+    height: 50px;       /* increase or decrease freely */
+    width: auto;
+    object-fit: contain;
+}
+
+/* BRAND TEXT */
+.brand {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.nav-links .muted {
+    color: white;
+    opacity: 0.8;
+    font-size: 15px;
+}
+
+/* ------------------------- */
+/* BUTTONS                   */
+/* ------------------------- */
+
+.btn {
+    padding: 10px 22px;
+    border-radius: 10px;
+    background: #9b6cff;
+    color: white;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.2s ease-in-out;
+}
+
+.btn:hover {
+    opacity: 0.85;
+}
+
+.btn.secondary {
+    background: white;
+    color: #9b6cff;
+    border: 2px solid #9b6cff;
+}
+
+.btn.secondary:hover {
+    background: #f1efff;
+}
+
+.btn.ghost {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.btn.ghost:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+
+/* ------------------------- */
+/* MAIN CONTENT              */
+/* ------------------------- */
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* ------------------------- */
+/* CARD STYLING (FORM BOX)   */
+/* ------------------------- */
+
+.card {
+    width: 90%;
+    max-width: 450px;
+    background: white;
+    margin: 50px auto;
+    border-radius: 18px;
+    padding: 40px 30px;
+    box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.12);
+    animation: fadeIn 0.5s ease;
+}
+
+.card h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #9b6cff;
+    font-size: 24px;
+}
+
+/* ------------------------- */
+/* FORM ELEMENTS             */
+/* ------------------------- */
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: #444;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 18px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus,
+select:focus {
+    border-color: #6a5af9;
+    box-shadow: 0 0 0 3px rgba(106, 90, 249, 0.15);
+}
+
+/* ------------------------- */
+/* FORM ACTIONS              */
+/* ------------------------- */
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* ------------------------- */
+/* ANIMATIONS                */
+/* ------------------------- */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ------------------------- */
+/* RESPONSIVE FIX (MOBILE)   */
+/* ------------------------- */
+
+@media (max-width: 520px) {
+    .site-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 30px 20px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+
+.header-actions .btn {
+    margin-left: 12px;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn2 {
+    background: transparent;
+    color: white;
+    padding: 10px 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.25s ease;
+    display: inline-block;
+}
+
+.btn2:hover {
+    transform: translateY(-2px);
+}

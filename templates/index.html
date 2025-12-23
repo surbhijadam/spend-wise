@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpendWise - Smart Finance, Smarter You</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+<body>
+    <nav class="navbar">
+    
+    <!-- LEFT: LOGO + BRAND NAME -->
+    <div class="nav-left">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" class="logo" />
+        <a href="{{ url_for('home') }}" class="brand">SpendWise</a>
+    </div>
+
+    <!-- CENTER: NAV BUTTONS -->
+    <div class="nav-actions">
+        <a class="nav-btn" href="{{ url_for('home') }}">Dashboard</a>
+        <a class="nav-btn" href="{{ url_for('add_income') }}">Add Income</a>
+        <a class="nav-btn" href="{{ url_for('add_expense_page') }}">Add Expense</a>
+        <a class="nav-btn" href="{{ url_for('view_expense_page') }}">View Expenses</a>
+        <a class="nav-btn" href="{{ url_for('analytics_page') }}">Analytics</a>
+    </div>
+
+    <!-- RIGHT: USER GREETING + LOGOUT -->
+    <div class="nav-auth">
+        {% if current_user.is_authenticated %}
+            <div class="user-stack">
+                <span class="muted user-greet">Hi, {{ current_user.name or current_user.id }}</span>
+                <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+            </div>
+        {% else %}
+            <a href="{{ url_for('login_page') }}" class="nav-auth-link">Login</a>
+            <a href="{{ url_for('signup_page') }}" class="nav-auth-link signup">Sign Up</a>
+        {% endif %}
+    </div>
+
+</nav>
+  
+    <section class="hero">
+        <div class="hero-headline">Smart Finance, Smarter You</div>
+        <div class="hero-sub">SpendWise helps you track expenses, set budgets, split bills, and earn rewards for smart spending. AI-powered, collaborative, and fun—finance made simple for students and young professionals.</div>
+        <div class="hero-illustration">
+            <img src="https://img.icons8.com/clouds/220/000000/money-bag.png" alt="Finance Illustration" style="width: 100%; height: 100%; object-fit: contain; animation: floatY 2.5s infinite alternate;">
+        </div>
+    </section>
+    <section class="features-section">
+        <div class="features-title">Why Choose SpendWise?</div>
+        <div class="features-grid">
+    
+            <!-- AI CARD -->
+            <a href="{{ url_for('ai_page') }}" class="feature-card-link">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
+                    <div class="feature-title">AI-Powered Expense Categorization</div>
+                    <div class="feature-desc">Automatically sort your expenses into categories using smart AI, so you always know where your money goes.</div>
+                </div>
+            </a>
+    
+            <!-- Gamification CARD -->
+            <a href="{{ url_for('gamification_page') }}" class="feature-card-link">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-trophy"></i></div>
+                    <div class="feature-title">Gamification & Rewards</div>
+                    <div class="feature-desc">Earn points and badges for good financial habits. Compete with friends and redeem rewards for your achievements!</div>
+                </div>
+            </a>
+    
+            <!-- Collaborative Budgeting CARD -->
+            <a href="{{ url_for('budgeting_page') }}" class="feature-card-link">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
+                    <div class="feature-title">Collaborative Budgeting</div>
+                    <div class="feature-desc">Create shared budgets, split bills, and manage group expenses easily with friends, roommates, or teams.</div>
+                </div>
+            </a>
+    
+        </div>
+    </section>
+    
+    <footer class="footer">
+        &copy; 2025 SpendWise. All rights reserved.
+    </footer>
+
+   
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

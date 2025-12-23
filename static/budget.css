@@ -1,0 +1,284 @@
+/* =========================
+   GLOBAL RESET & SAFETY
+========================= */
+* {
+  box-sizing: border-box;
+}
+
+body.budget-page {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', Arial, sans-serif;
+  background: linear-gradient(135deg, #7f53ac 0%, #647dee 100%);
+  min-height: 100vh;
+  color: #1f1f1f;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  color: #fff;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brand {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 999px;
+  transition: background 0.2s;
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn,
+.btn-primary {
+  padding: 10px 22px;
+  border-radius: 10px;
+  background: #5b3fc4;
+  color: white;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.2s ease-in-out;
+}
+
+.btn:hover,
+.btn-primary:hover {
+  opacity: 0.85;
+}
+
+.btn.secondary {
+  background: white;
+  color: #9b6cff;
+  border: 2px solid #9b6cff;
+}
+
+.btn.secondary:hover {
+  background: #f1efff;
+}
+
+.btn-primary {
+  max-width: 300px;
+  width: 100%;
+  margin: 10px auto 0;
+  display: block;
+}
+
+/* =========================
+   HEADER
+========================= */
+header {
+  background: transparent;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* =========================
+   CARDS
+========================= */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-top: 20px;
+  color: #2c3e50;
+}
+
+/* =========================
+   FORMS
+========================= */
+.form-input,
+input,
+select {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin: 6px 0;
+}
+
+.form-input:focus,
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #5b3fc4;
+}
+
+/* =========================
+   SUMMARY
+========================= */
+.summary {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.summary div {
+  flex: 1;
+  background: #ecf0f1;
+  padding: 15px;
+  text-align: center;
+  border-radius: 6px;
+}
+
+/* =========================
+   TABLE
+========================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background: #ecf0f1;
+}
+
+/* =========================
+   CHART RESIZE FIX
+========================= */
+.chart-wrapper {
+  width: 100%;
+  max-width: 600px;
+  height: 350px;
+  margin: 20px auto;
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+
+/* =========================
+   MOBILE & TABLET
+========================= */
+@media (max-width: 768px) {
+
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .nav-links li a {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  .brand {
+    font-size: 22px;
+  }
+
+  .logo {
+    height: 40px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  .card {
+    padding: 16px;
+    overflow-x: auto;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  .summary {
+    flex-direction: column;
+  }
+
+  table {
+    min-width: 600px;
+  }
+
+  .btn-primary {
+    max-width: 100%;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+@media (max-width: 480px) {
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  header p {
+    font-size: 0.95rem;
+  }
+}

@@ -1,0 +1,158 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #9b7cff, #7ea1ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* HEADER */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 60px;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;  /* ← reduces gap between logo and SpendWise */
+}
+
+/* LOGO FIXED SIZE */
+.logo {
+    height: 50px;       /* increase or decrease freely */
+    width: auto;
+    object-fit: contain;
+}
+
+/* BRAND TEXT */
+.brand {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar nav a {
+    margin-left: 25px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+}
+.navbar nav a:hover {
+    text-decoration: underline;
+}
+.header-actions .btn {
+    margin-left: 12px;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn {
+    background: transparent;
+    color: white;
+    padding: 10px 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.25s ease;
+    display: inline-block;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+/* INCOME CARD */
+.income-card {
+    background: #ffffff;
+    width: 380px;
+    padding: 28px 26px;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.income-card h2 {
+    text-align: center;
+    color: #8a6bff;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.total-income {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    width: 94%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #8a6bff;
+}
+
+.action-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-add {
+    background: #8a6bff;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-add:hover {
+    background: #7557f5;
+}
+
+.btn-view {
+    background: transparent;
+    border: 2px solid #8a6bff;
+    color: #8a6bff;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-view:hover {
+    background: #8a6bff;
+    color: #fff;
+}

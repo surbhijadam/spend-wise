@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Expenses</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='vstyle.css') }}">
+</head>
+<body class="simple-page view-page">
+    <header class="site-header">
+        <div class="nav-left">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="logo" class="logo" />
+            <a href="{{ url_for('home') }}" class="brand">SpendWise</a>
+        </div>
+        <nav class="nav-links">
+            {% if current_user.is_authenticated %}
+            <div class="header-actions">
+                <a href="/" class="btn2">Home</a>
+                <a href="/add-expense-page" class="btn2">Add Expense</a>
+                <a href="/add-income" class="btn2">Add Income</a>
+                <a class="btn2" href="/analytics-page">Analytics</a>
+              </div>
+            {% else %}
+                <a href="{{ url_for('login_page') }}" class="btn">Login</a>
+                <a href="{{ url_for('signup_page') }}" class="btn secondary">Sign up</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="simple-card">
+            <h2>All Expenses</h2>
+
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="label">Total spent</div>
+                    <div id="totalAmount" class="value">—</div>
+                    <div style="margin-top:10px">
+                        <div class="label">Monthly budget</div>
+                        <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+                            <input id="budgetAmount" type="number" step="0.01" placeholder="0.00" style="width:120px;padding:8px;border-radius:8px;border:1px solid #e6e9ef">
+                            <button id="setBudgetBtn" class="btn">Set</button>
+                        </div>
+                        <div id="budgetMsg" class="muted" style="margin-top:8px"></div>
+                        <div class="budget-box" style="margin-top:10px">
+                            <div id="budgetAlert" class="budget-alert" style="display:none"></div>
+                            <div class="budget-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                <div id="budgetProgressInner" class="budget-progress-inner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+                <div class="summary-card">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            </div>
+
+            <div class="simple-table">
+                <table id="expenseTable">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Category</th>
+                            <th>Note</th>
+                            <th>Date</th>
+                            <th class="actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expenseBody">
+                        <tr class="empty-row"><td colspan="5" class="empty">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
