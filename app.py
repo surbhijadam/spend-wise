@@ -14,33 +14,11 @@ from bson.objectid import ObjectId
 from flask import jsonify
 from flask_login import login_required, current_user
 from collections import defaultdict
-import os
-from flask import Flask, request, jsonify
 from google import genai # The new SDK
 from dotenv import load_dotenv
 
 # Load the key from the .env file
 load_dotenv()
-
-app = Flask(__name__)
-
-# Initialize the Gemini Client
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-
-@app.route('/ai', methods=['POST']) # Or wherever your AI logic sits
-def ai_feature():
-    try:
-        user_msg = request.json.get('message')
-        response = client.models.generate_content(
-            model="gemini-1.5-flash",
-            contents=user_msg
-        )
-        return jsonify({"reply": response.text})
-    except Exception as e:
-        print(f"AI Error: {e}")
-        return jsonify({"error": str(e)}), 400
-
-# ... rest of your routes ...
 
 # ---------------- FLASK APP SETUP ---------------- 
 app = Flask(__name__)
@@ -60,6 +38,68 @@ class User(UserMixin):
     def __init__(self, username, name=None):
         self.id = username
         self.name = name or username
+
+
+# ============ MONGODB CONFIGURATION ============
+def init_mongodb():
+    """Initialize MongoDB connection with proper error handling and configuration."""
+    try:
+        mongo_uri = os.getenv("MONGODB_URI", "mongodb://localhost:27017/")
+        db_name = os.getenv("MONGODB_DB_NAME", "SpendWiseDB")
+        
+        # Create MongoClient with connection pooling and timeouts
+        mongo_client = MongoClient(
+            mongo_uri,
+            serverSelectionTimeoutMS=5000,
+            connectTimeoutMS=10000,
+            retryWrites=True,
+            maxPoolSize=50,
+            minPoolSize=10
+        )
+        
+        # Test connection
+        mongo_client.admin.command('ping')
+        print(f"✓ MongoDB connected successfully to {db_name}")
+        
+        return mongo_client, mongo_client[db_name]
+    except Exception as e:
+        print(f"✗ MongoDB connection error: {e}")
+        print("  Ensure MongoDB is running. For local setup, run: mongod")
+        raise
+
+# Initialize MongoDB
+try:
+    mongo_client, db = init_mongodb()
+    # Initialize collections
+    expenses_collection = db["expenses"]
+    users_collection = db["users"]
+    income_col = db["income"]
+    budgets_collection = db["budgets"]
+    groups_collection = db["groups"]
+    
+    # Create indexes for better performance
+    expenses_collection.create_index("user")
+    users_collection.create_index("username", unique=True)
+    users_collection.create_index("email", unique=True)
+    groups_collection.create_index("created_by")
+    print("✓ Database indexes created")
+except Exception as e:
+    print(f"✗ Failed to initialize database: {e}")
+    raise
+
+
+# Initialize the Gemini Client
+try:
+    gemini_key = os.getenv("GEMINI_API_KEY")
+    if gemini_key:
+        client = genai.Client(api_key=gemini_key)
+        print("✓ Gemini AI client initialized")
+    else:
+        client = None
+        print("⚠ GEMINI_API_KEY not set. AI features will be unavailable.")
+except Exception as e:
+    client = None
+    print(f"⚠ Gemini initialization warning: {e}")
 
 
 @login_manager.user_loader
@@ -115,13 +155,28 @@ def ai_page():
 def gamification_page():
     return render_template('gamification.html')
 
-# ---------------- MONGODB CONNECTION ---------------- #
 
-client = MongoClient("mongodb://localhost:27017/")
-db = client["SpendWiseDB"]
-expenses_collection = db["expenses"]
-users_collection = db["users"]
-income_col = db["income"]
+# ============ AI ROUTE ============
+@app.route('/api/ai', methods=['POST'])
+@login_required
+def ai_feature():
+    """AI-powered expense analysis endpoint."""
+    if not client:
+        return jsonify({"error": "AI service not available"}), 503
+    
+    try:
+        user_msg = request.json.get('message')
+        if not user_msg:
+            return jsonify({"error": "Message required"}), 400
+        
+        response = client.models.generate_content(
+            model="gemini-1.5-flash",
+            contents=user_msg
+        )
+        return jsonify({"reply": response.text}), 200
+    except Exception as e:
+        print(f"AI Error: {e}")
+        return jsonify({"error": str(e)}), 500
 
 
 # ---------------- API ROUTES ---------------- #
@@ -452,9 +507,7 @@ def delete_expense(expense_id):
     return jsonify({'message': 'deleted'}), 200
 
 
-# ---------------- BUDGETS ---------------- #
-
-budgets_collection = db['budgets']
+# ============ BUDGETS ============
 
 @app.route('/api/budget', methods=['GET'])
 @login_required
@@ -676,9 +729,7 @@ def logout():
     return redirect(url_for('home'))
 
 
-# ---------------- BUDGET GROUPS ---------------- #
-
-groups_collection = db['groups']
+# ============ BUDGET GROUPS ============
 
 @app.route('/budgeting')
 def budgeting_page():
